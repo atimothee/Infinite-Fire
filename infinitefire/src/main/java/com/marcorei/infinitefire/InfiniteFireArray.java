@@ -308,56 +308,7 @@ public class InfiniteFireArray<T> {
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChild) {
-                endOfDataReached = false;
-                if(fixedItemPositions) {
-                    return;
-                }
-                boolean firstChild = (dataSnapshots.size() == 0);
-                if(eraseOnData) {
-                    eraseOnData = false;
-                    dataSnapshots.clear();
-                    notifyOnChangedListener(OnChangedListener.EventType.Reset);
-                }
-                int i;
-                if(limitToFirst) {
-                    if(previousChild != null) {
-                        i = getIndexForKey(previousChild) + 1;
-                    } else {
-                        i = 0;
-                    }
-                    if(dataSnapshots.size() >= (i + 1) &&
-                            dataSnapshots.get(i).getKey().equals(dataSnapshot.getKey())) {
-                        return;
-                    }
-                } else {
-                    if(previousChild != null) {
-                        // when limit to last is active we want to reverse the order of the children!
-                        // so that we can reverse the order again in the LayoutManager.
-                        i = getIndexForKey(previousChild);
-                    } else {
-                        i = dataSnapshots.size();
-                    }
-                    if(i > 0 &&
-                            i < dataSnapshots.size() + 1 &&
-                            dataSnapshots.get(i - 1).getKey().equals(dataSnapshot.getKey())) {
-                        return;
-                    }
-                }
-
-                // when previousChild is not supplied this child is supposed to be the first child.
-                // unfortunately this is not always true: when added a new child locally, then
-                // previousChild might as well be null for multiple children (the first on and the new one).
-                // so we need to check the whole array for duplicates.
-                if(previousChild == null &&
-                        getIndexForKey(dataSnapshot.getKey()) != -1) {
-                    return;
-                }
-
-                dataSnapshots.add(i, dataSnapshot);
-                if(firstChild) {
-                    notifyOnLoadingStatusListener();
-                }
-                notifyOnChangedListener(OnChangedListener.EventType.Added, i);
+                
             }
 
             @Override
