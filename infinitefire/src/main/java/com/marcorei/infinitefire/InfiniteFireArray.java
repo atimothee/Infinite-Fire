@@ -310,6 +310,7 @@ public class InfiniteFireArray<T> {
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChild) {
+
                 endOfDataReached = false;
                 if(fixedItemPositions) {
                     return;
@@ -364,6 +365,7 @@ public class InfiniteFireArray<T> {
                     notifyOnLoadingStatusListener();
                 }
                 notifyOnChangedListener(OnChangedListener.EventType.Added, i);
+
             }
 
             @Override
