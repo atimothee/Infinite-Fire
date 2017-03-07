@@ -3,6 +3,8 @@
  */
 package com.marcorei.infinitefire;
 
+import android.util.Log;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -350,6 +352,10 @@ public class InfiniteFireArray<T> {
                 // so we need to check the whole array for duplicates.
                 if(previousChild == null &&
                         getIndexForKey(dataSnapshot.getKey()) != -1) {
+                    return;
+                }
+                if(getIndexForKey(dataSnapshot.getKey())!=-1){
+                    Log.d(InfiniteFireArray.class.getSimpleName(), "prevented duplicate from being added");
                     return;
                 }
 
