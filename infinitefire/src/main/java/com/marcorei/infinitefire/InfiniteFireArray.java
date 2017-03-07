@@ -355,12 +355,13 @@ public class InfiniteFireArray<T> {
                         getIndexForKey(dataSnapshot.getKey()) != -1) {
                     return;
                 }
-                if(getIndexForKey(dataSnapshot.getKey())!=-1){
+                if(getIndexForKey(dataSnapshot.getKey())!= -1){
                     Log.d(InfiniteFireArray.class.getSimpleName(), "prevented duplicate from being added");
                     return;
                 }
 
                 dataSnapshots.add(i, dataSnapshot);
+                Log.d(InfiniteFireArray.class.getSimpleName(), "added "+dataSnapshot.getKey()+" to position "+Integer.toString(i));
                 if(firstChild) {
                     notifyOnLoadingStatusListener();
                 }
@@ -409,6 +410,7 @@ public class InfiniteFireArray<T> {
                     newIndex = (previousChild == null) ? dataSnapshots.size() : (getIndexForKey(previousChild));
                 }
                 dataSnapshots.add(newIndex, dataSnapshot);
+                Log.d(InfiniteFireArray.class.getSimpleName(), "added "+dataSnapshot.getKey()+" to position "+Integer.toString(newIndex)+" on moved");
                 notifyOnChangedListener(OnChangedListener.EventType.Moved, newIndex, oldIndex);
             }
 
@@ -450,6 +452,7 @@ public class InfiniteFireArray<T> {
                         i = getIndexForKey(child.getKey());
                         if(i > -1) continue;
                         dataSnapshots.add(child);
+                        Log.d(InfiniteFireArray.class.getSimpleName(), "added "+dataSnapshot.getKey()+" to last position in on change");
                         notifyOnChangedListener(OnChangedListener.EventType.Added, length -1);
                         length++;
                         // this is to ensure that we never add more items then there should be
@@ -464,11 +467,14 @@ public class InfiniteFireArray<T> {
                         i = getIndexForKey(child.getKey());
                         if (i > -1) continue;
                         if(firstAddedChildIndex == -1) {
+                            Log.d(InfiniteFireArray.class.getSimpleName(), "added child from on change");
                             dataSnapshots.add(child);
+                            Log.d(InfiniteFireArray.class.getSimpleName(), "added "+dataSnapshot.getKey()+" to last position in on change limit to last");
                             firstAddedChildIndex = dataSnapshots.size() - 1;
                         }
                         else {
                             dataSnapshots.add(firstAddedChildIndex, child);
+                            Log.d(InfiniteFireArray.class.getSimpleName(), "added "+dataSnapshot.getKey()+" to last position in on change limit to last else");
                         }
                         notifyOnChangedListener(OnChangedListener.EventType.Added, firstAddedChildIndex);
                         length ++;
